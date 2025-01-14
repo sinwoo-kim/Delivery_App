@@ -17,6 +17,6 @@ public class AuthenticationEntryPoint implements org.springframework.security.we
 		AuthenticationException authException) throws IOException, ServletException {
 		response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 		response.setContentType("application/json");
-		response.getWriter().write("{\"error\": \"Unauthorized: " + authException.getMessage() + "\"}");
+		response.getWriter().write("{\"error\": \"인증 실패: 유효하지 않은 인증 정보입니다.\"}");
 	}
 }
