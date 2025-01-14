@@ -38,17 +38,16 @@ public class StoreController {
 	private final StoreService storeService;
 	private final UserService userService;
 	@PostMapping
-	@PreAuthorize("hasRole('OWNER')") // OWNER 권한을 가진 사용자만 접근 가능
 	@Operation(summary = "가게 생성", description = "사장님(OWNER) 권한을 가진 사용자만 가게를 생성할 수 있습니다.")
 	public ResponseEntity<ApiResponse<StoreCreateResponseDto>> createStore(
 		@AuthenticationPrincipal Long userId,
 		@Valid @RequestBody StoreCreateRequestDto requestDto
 	) {
-		// 사용자 권한 검증 (추가적인 검증이 필요한 경우)
-		User user = userService.getUserById(userId);
-		if (!user.getRole().equals(UserRoleEnum.OWNER)) {
-			throw new UnauthorizedException("가게 생성은 사장님만 가능합니다.");
-		}
+		// // 사용자 권한 검증 (추가적인 검증이 필요한 경우)
+		// User user = userService.getUserById(userId);
+		// if (!user.getRole().equals(UserRoleEnum.OWNER)) {
+		// 	throw new UnauthorizedException("가게 생성은 사장님만 가능합니다.");
+		// }
 
 		StoreCreateResponseDto responseDto = storeService.createStore(
 			requestDto,
@@ -61,7 +60,6 @@ public class StoreController {
 	}
 
 	@PutMapping("/{storeId}")
-	@PreAuthorize("hasRole('OWNER')") // OWNER 권한을 가진 사용자만 접근 가능
 	@Operation(summary = "가게 수정", description = "사장님(OWNER) 권한을 가진 사용자만 가게를 수정 할 수 있습니다.")
 	public ResponseEntity<ApiResponse<StoreUpdateResponseDto>> updateStore(
 		@PathVariable Long storeId,
@@ -82,7 +80,6 @@ public class StoreController {
 	}
 
 	@PutMapping("/{storeId}/close")
-	@PreAuthorize("hasRole('OWNER')")
 	@Operation(summary = "가게 폐업", description = "사장님(OWNER) 권한을 가진 사용자만 가게를 폐업할 수 있습니다.")
 	public ResponseEntity<ApiResponse<StoreCloseResponseDto>> closeStore(
 		@PathVariable Long storeId,
