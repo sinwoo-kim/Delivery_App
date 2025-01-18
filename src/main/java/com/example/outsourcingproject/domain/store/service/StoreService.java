@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.outsourcingproject.common.ApiResponse;
+import com.example.outsourcingproject.domain.menu.repository.MenuRepository;
 import com.example.outsourcingproject.domain.store.dto.StoreCloseResponseDto;
 import com.example.outsourcingproject.domain.store.dto.StoreCreateRequestDto;
 import com.example.outsourcingproject.domain.store.dto.StoreCreateResponseDto;
@@ -33,6 +34,7 @@ import lombok.RequiredArgsConstructor;
 public class StoreService {
 	private final StoreRepository storeRepository;
 	private final UserRepository userRepository;
+	private final MenuRepository menuRepository;
 
 	private static final int MAX_STORES_PER_OWNER = 3;
 
@@ -41,7 +43,6 @@ public class StoreService {
 		// 사용자 조회
 		User user = userRepository.findById(userId)
 			.orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
-
 		// 가게 개수 체크
 		validateStoreCount(user);
 
@@ -76,6 +77,7 @@ public class StoreService {
 
 		// 폐업 처리
 		store.close();
+		menuRepository.softDeletedAllByStoreId(storeId);
 
 		// 운영 중인 가게 수 확인 - 로그 목적
 		long remainingActiveStores = storeRepository.countByOwnerAndIsOperatingTrue(store.getOwner());
