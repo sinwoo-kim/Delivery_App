@@ -4,8 +4,6 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 
 public record CreateOrderRequestDto(
-	@NotBlank(message = "storeId는 필수입니다.")
-	Long storeId,
 
 	@NotBlank(message = "menuId는 필수입니다.")
 	Long menuId,

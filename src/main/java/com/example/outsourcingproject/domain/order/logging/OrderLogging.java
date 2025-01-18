@@ -22,7 +22,7 @@ public class OrderLogging {
 	public void createOrderLog(Object result) {
 		if (result instanceof Order order) {
 			log.info("신규 주문. RequestTime: {}, StoreId: {}, OrderId: {}",
-				LocalDateTime.now(), order.getStore().getStoreId(), order.getOrderId());
+				LocalDateTime.now(), order.getOrderId());
 		}
 	}
 
@@ -33,7 +33,7 @@ public class OrderLogging {
 	public void updateOrderLog(Object result) {
 		if (result instanceof Order order) {
 			log.info("주문 상태를 {}(으)로 변경. RequestTime: {}, StoreId: {}, OrderId: {}",
-				order.getOrderStatus(), LocalDateTime.now(), order.getStore().getStoreId(), order.getOrderId());
+				order.getOrderStatus(), LocalDateTime.now(), order.getOrderId());
 		}
 	}
 }
