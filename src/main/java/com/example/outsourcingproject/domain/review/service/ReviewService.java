@@ -70,16 +70,7 @@ public class ReviewService {
         User user = userService.getUserById(userId);
 
         // Review 엔티티 생성
-
-        Review review = new Review(
-                null, // reviewId는 자동 생성됨
-                order, // Order 객체 전달
-                user,  // User 객체 전달
-                order.getStore(), // 주문에 연결된 가게 가져오기
-                reviewRequest.rating(),
-                reviewRequest.content(),
-                LocalDateTime.now()
-        );
+        Review review = Review.created(order, user, order.getStore(), reviewRequest.rating(), reviewRequest.content());
 
         // 리뷰 저장
         Review savedReview = reviewRepository.save(review);
