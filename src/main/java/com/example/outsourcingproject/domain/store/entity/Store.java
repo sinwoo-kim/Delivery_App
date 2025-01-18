@@ -3,6 +3,9 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
+
 import com.example.outsourcingproject.domain.menu.entity.Menu;
 import com.example.outsourcingproject.domain.order.entity.Order;
 import com.example.outsourcingproject.domain.review.entity.Review;
@@ -61,7 +64,7 @@ public class Store {
 	@OneToMany(mappedBy = "store")
 	private List<Menu> menus = new ArrayList<>();
 
-	@OneToMany(mappedBy = "store")
+	@OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Review> reviews = new ArrayList<>();
 
 	@OneToMany(mappedBy = "store")
