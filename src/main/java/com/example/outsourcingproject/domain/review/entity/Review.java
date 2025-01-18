@@ -2,6 +2,10 @@ package com.example.outsourcingproject.domain.review.entity;
 
 import java.time.LocalDateTime;
 
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
+
+import com.example.outsourcingproject.common.TimeStamped;
 import com.example.outsourcingproject.domain.order.entity.Order;
 import com.example.outsourcingproject.domain.store.entity.Store;
 import com.example.outsourcingproject.domain.user.entity.User;
@@ -26,7 +30,7 @@ import lombok.Setter;
 @Table(name = "reviews")
 @NoArgsConstructor
 @AllArgsConstructor
-public class Review {
+public class Review extends TimeStamped {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -50,16 +54,18 @@ public class Review {
 	@Column(nullable = false, length = 500)
 	private String content; // 리뷰 내용
 
-	@Column(nullable = false)
-	private LocalDateTime createdAt; // 리뷰 작성일
+	private boolean deleted = false;
 
 
-	public Review(Order order, User user, Store store, int rating, String content, LocalDateTime createdAt) {
+	private Review(Order order, User user, Store store, int rating, String content) {
 		this.order = order;
 		this.user = user;
 		this.store = store;
 		this.rating = rating;
 		this.content = content;
-		this.createdAt = createdAt;
+	}
+
+	public static Review created(Order order, User user, Store store, int rating, String content) {
+		return new Review(order, user, store, rating, content);
 	}
 }
