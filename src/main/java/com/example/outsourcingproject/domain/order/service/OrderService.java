@@ -47,20 +47,9 @@ public class OrderService {
 	@Transactional
 	public Order createOrder(Long userId, CreateOrderRequestDto dto) {
 
-		// Store 2에서 생성하지 않은 메뉴 id 값으로 주문 요청 시 주문이 생성되는 예외 상황 발생
-		// 클라이언트의 요청 조작을 막고자, store의 자식 메뉴 리스트를 불러와 검증하는 로직 추가.
-		// 이러한 검증이 의미있는 검증인지, 의미없는 검증인지? 정합성 문제로 검증하는게 맞음.
-		// store id를 꼭 입력값으로 받아야 하는가?
-
-		// List<Menu> menuList = store.getMenus();
-		// boolean isMenuPresent = menuList.stream().anyMatch(menu -> menu.getMenuId().equals(dto.menuId()));
-		// if(!isMenuPresent) {
-		// 	throw new BusinessException(ErrorCode.MENU_NOT_FOUND);
-		// }
 		Menu menu = findMenuByIdOrElseThrow(dto.menuId());
 		Store store = menu.getStore();
-		// 로그인할 때 검증 후 토큰이 생성되는데 user id 존재여부 재 검증이 필요한가?
-		// 주문 생성 중 user가 탈퇴하거나 비활성화 될 수 있음.
+
 		User user = findUserByIdOrElseThrow(userId);
 
 		checkMenuIsDeleted(menu);

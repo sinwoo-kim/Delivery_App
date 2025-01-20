@@ -30,7 +30,9 @@ public class SecurityConfig {
 
 	// AuthenticationManger Bean 등록
 	@Bean
-	public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws
+	public AuthenticationManager authenticationManager(
+		AuthenticationConfiguration authenticationConfiguration
+	) throws
 		Exception {
 		return authenticationConfiguration.getAuthenticationManager();
 	}

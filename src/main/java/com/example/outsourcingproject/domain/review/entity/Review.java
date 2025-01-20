@@ -1,9 +1,6 @@
 package com.example.outsourcingproject.domain.review.entity;
 
-import java.time.LocalDateTime;
 
-import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.Where;
 
 import com.example.outsourcingproject.common.TimeStamped;
 import com.example.outsourcingproject.domain.order.entity.Order;
