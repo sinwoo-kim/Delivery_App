@@ -1,3 +1,10 @@
+// query dsl
+buildscript {
+    ext {
+        queryDslVersion = "5.0.0"
+    }
+}
+
 plugins {
     id 'java'
     id 'org.springframework.boot' version '3.1.4'
@@ -33,12 +40,41 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0'
-    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     // jwt
     implementation "io.jsonwebtoken:jjwt-api:0.11.5"
     implementation "io.jsonwebtoken:jjwt-impl:0.11.5"
     runtimeOnly "io.jsonwebtoken:jjwt-gson:0.11.5"
+
+    // QueryDSL 의존성 설정
+    implementation "com.querydsl:querydsl-jpa:5.0.0:jakarta"
+    annotationProcessor "com.querydsl:querydsl-apt:5.0.0:jakarta"
+
+// 추가적으로 Jakarta API 설정
+    annotationProcessor "jakarta.annotation:jakarta.annotation-api"
+    annotationProcessor "jakarta.persistence:jakarta.persistence-api"
+}
+// query dsl 시작
+def querydslDir = "$buildDir/generated/querydsl"
+
+
+sourceSets {
+    main {
+        java {
+            srcDirs += querydslDir
+        }
+    }
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+    querydsl.extendsFrom compileClasspath
+}
+
+tasks.named('compileJava') {
+    options.generatedSourceOutputDirectory = file(querydslDir)
 }
 
 tasks.named('test') {
