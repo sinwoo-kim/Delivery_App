@@ -3,6 +3,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
@@ -29,6 +30,7 @@ import jakarta.persistence.*;
 @Entity
 @Getter
 @NoArgsConstructor
+@DynamicUpdate
 public class Store {
 
 	@Id
